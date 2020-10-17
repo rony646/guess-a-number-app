@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text, Button, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 
 import Card from '../components/Card'
+import NumberContainer from '../components/NumberContainer'
 import Input from '../components/Input'
 import Colors from '../constants/colors'
 
@@ -30,12 +31,17 @@ const StartGameScreen = props => {
         setConfirmed(true);
         setEnteredValue('');
         setSelectedNumber(parseInt(enteredValue));
+        Keyboard.dismiss()
     };
 
     let confirmedOutPut;
 
     if(confirmed) {
-        confirmedOutPut = <Text>Chosen Number: {selectedNumber}</Text>
+        confirmedOutPut = <Card style={styles.summaryContainer}>
+                            <Text>You selected</Text>
+                            <NumberContainer>{selectedNumber}</NumberContainer>
+                            <Button title="START GAME"/>
+                          </Card>
     };
 
     return (
@@ -103,6 +109,10 @@ const styles = StyleSheet.create({
     input: {
        width: 50,
        textAlign: "center" 
+    },
+    summaryContainer: {
+        marginTop: 20,
+        alignItems: "center"
     }
 })
 
