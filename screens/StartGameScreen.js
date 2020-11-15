@@ -8,6 +8,7 @@ import BodyText from '../components/BodyText'; // Text component with custom Fon
 import NumberContainer from '../components/NumberContainer'
 import Input from '../components/Input'
 import Colors from '../constants/colors'
+import MainButton from '../components/MainButton'
 
 const StartGameScreen = props => {
 
@@ -42,7 +43,7 @@ const StartGameScreen = props => {
         confirmedOutPut = <Card style={styles.summaryContainer}>
                             <Text>You selected</Text>
                             <NumberContainer>{selectedNumber}</NumberContainer>
-                            <Button title="START GAME" onPress={() => props.onStartGame(selectedNumber)}/>
+                            <MainButton onPress={() => props.onStartGame(selectedNumber)}>START GAME</MainButton>
                           </Card>
     };
 
