@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import {View, Text, Alert, StyleSheet} from 'react-native';
+import {View, Text, Alert, StyleSheet, ScrollView} from 'react-native';
 import { Ionicons } from '@expo/vector-icons/'
 
 import NumberContainer from '../components/NumberContainer';
 import MainButton from '../components/MainButton';
 import Card from '../components/Card';
-import Colors from '../constants/colors'
+import BodyText from '../components/BodyText';
 
 const generateRandomBetween = (min, max, exclude) => {
     min = Math.ceil(min);
@@ -19,8 +19,9 @@ const generateRandomBetween = (min, max, exclude) => {
 };
 
 const GameScreen = props => {
-    const [currentGuess, setCurrentGuess] = useState(generateRandomBetween(1, 100, props.userChoice));
-    const [rounds, setRounds] = useState(0);
+    const initialGuess = generateRandomBetween(1, 100, props.userChoice)
+    const [currentGuess, setCurrentGuess] = useState(initialGuess);
+    const [pastGuesses, setPastGueses] = useState([initialGuess]);
 
     const currentLow = useRef(1);
     const currentHigh = useRef(100); // Keeping value after the cycle
@@ -29,7 +30,7 @@ const GameScreen = props => {
 
     useEffect(() => {
         if(currentGuess === props.userChoice) {
-            props.onGameOver(rounds);
+            props.onGameOver(pastGuesses.length);
         };
     }, [currentGuess, userChoice, onGameOver]);
 
@@ -43,12 +44,17 @@ const GameScreen = props => {
             currentHigh.current = currentGuess;
 
         } else {
-            currentLow.current = currentGuess
+            currentLow.current = currentGuess + 1;
         };
         const nextNumber = generateRandomBetween(currentLow.current, currentHigh.current, currentGuess);
         setCurrentGuess(nextNumber);
-        setRounds(curRounds => curRounds + 1);
+        // setRounds(curRounds => curRounds + 1);
+        setPastGueses(curPastGuesses => [nextNumber ,...curPastGuesses])
     };
+
+    const renderListItem = (value) => {
+        
+    }
 
 
 
@@ -60,6 +66,9 @@ const GameScreen = props => {
                 <MainButton onPress={nextGuessHandler.bind(this, 'lower')}><Ionicons name="md-remove" size={24} color="white" /></MainButton>
                 <MainButton onPress={nextGuessHandler.bind(this, 'greater')}><Ionicons name="md-add" size={24} color="white" /></MainButton>
             </Card>
+            <ScrollView>
+                
+            </ScrollView>
         </View>
     );
 };
