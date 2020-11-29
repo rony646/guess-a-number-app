@@ -52,8 +52,13 @@ const GameScreen = props => {
         setPastGueses(curPastGuesses => [nextNumber ,...curPastGuesses])
     };
 
-    const renderListItem = (value) => {
-        
+    const renderListItem = (guess, numOfRound) => {
+        return(
+            <View key={guess} style={styles.listItem}>
+                <BodyText>#{numOfRound}</BodyText>
+                <BodyText>{guess}</BodyText>
+            </View>
+            )
     }
 
 
@@ -66,9 +71,11 @@ const GameScreen = props => {
                 <MainButton onPress={nextGuessHandler.bind(this, 'lower')}><Ionicons name="md-remove" size={24} color="white" /></MainButton>
                 <MainButton onPress={nextGuessHandler.bind(this, 'greater')}><Ionicons name="md-add" size={24} color="white" /></MainButton>
             </Card>
-            <ScrollView>
-                
-            </ScrollView>
+            <View style={styles.list}>
+                <ScrollView>
+                    {pastGuesses.map((guess, index) => renderListItem(guess, pastGuesses.length - index))}
+                </ScrollView>
+            </View>
         </View>
     );
 };
@@ -85,6 +92,19 @@ const styles = StyleSheet.create({
         marginTop: 20,
         width: 400,
         maxWidth: "90%"
+    },
+    listItem: {
+        borderColor: "#ccc",
+        flexDirection: "row",
+        borderWidth: 1,
+        padding: 15,
+        marginVertical: 10,
+        backgroundColor: "white",
+        justifyContent: "space-around"
+    },
+    list: {
+        flex: 1,
+        width: "80%"
     }
 });
 
